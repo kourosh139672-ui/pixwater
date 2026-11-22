@@ -157,7 +157,7 @@ fun WeatherXApp() {
                     item {
                         Box(Modifier.fillMaxWidth().background(Brush.verticalGradient(gradient)).padding(20.dp)) {
                             if (isRain == true) RainDrops(Modifier.matchParentSize())
-                            if (isCloud == true) CloudDecor(Modifier.matchParentSize())
+                            if (isCloud == true) CloudDecor(Modifier.matchParentSize())\n                            if (w != null && isRain != true && isCloud != true) SunDecor(Modifier.matchParentSize())
                             Column {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text("WeatherX", color = Color.White, fontSize = 27.sp, fontWeight = FontWeight.ExtraBold)
