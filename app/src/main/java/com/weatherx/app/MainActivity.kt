@@ -128,7 +128,7 @@ fun WeatherXApp() {
     val locationLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { grants ->
         if (grants.values.any { it }) {
             try {
-                val lm = context.getSystemService(ComponentActivity.LOCATION_SERVICE) as LocationManager
+                val lm = context.getSystemService(LocationManager::class.java)
                 val loc: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                     ?: lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (loc != null) selected = Place(-99, "موقعیت من", "", "مکان فعلی", loc.latitude, loc.longitude)
@@ -157,7 +157,8 @@ fun WeatherXApp() {
                     item {
                         Box(Modifier.fillMaxWidth().background(Brush.verticalGradient(gradient)).padding(20.dp)) {
                             if (isRain == true) RainDrops(Modifier.matchParentSize())
-                            if (isCloud == true) CloudDecor(Modifier.matchParentSize())\n                            if (w != null && isRain != true && isCloud != true) SunDecor(Modifier.matchParentSize())
+                            if (isCloud == true) CloudDecor(Modifier.matchParentSize())
+                            if (w != null && isRain != true && isCloud != true) SunDecor(Modifier.matchParentSize())
                             Column {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text("WeatherX", color = Color.White, fontSize = 27.sp, fontWeight = FontWeight.ExtraBold)
@@ -293,7 +294,7 @@ fun WeatherXApp() {
                     val coarse = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     if (fine || coarse) {
                         try {
-                            val lm = context.getSystemService(ComponentActivity.LOCATION_SERVICE) as LocationManager
+                            val lm = context.getSystemService(LocationManager::class.java)
                             val loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) ?: lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                             if (loc != null) { selected = Place(-99, "موقعیت من", "", "مکان فعلی", loc.latitude, loc.longitude); showPlaces = false }
                             else error = "موقعیت در دسترس نیست؛ مکان‌یابی گوشی را روشن کن."
