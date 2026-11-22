@@ -371,6 +371,35 @@ private fun CloudDecor(modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+private fun SunDecor(modifier: Modifier = Modifier) {
+    val transition = rememberInfiniteTransition(label = "sun")
+    val pulse by transition.animateFloat(
+        initialValue = 0.92f,
+        targetValue = 1.08f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2200, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "sunPulse"
+    )
+    Canvas(modifier) {
+        val center = Offset(size.width * 0.86f, size.height * 0.18f)
+        val radius = 27f * pulse
+        drawCircle(Color(0xFFFFD76A).copy(alpha = 0.16f), radius = radius * 1.9f, center = center)
+        drawCircle(Color(0xFFFFD76A).copy(alpha = 0.30f), radius = radius * 1.35f, center = center)
+        drawCircle(Color(0xFFFFD76A), radius = radius, center = center)
+        for (i in 0 until 8) {
+            val angle = Math.PI * i / 4.0
+            val inner = radius + 7f
+            val outer = radius + 15f
+            val start = Offset(center.x + kotlin.math.cos(angle).toFloat() * inner, center.y + kotlin.math.sin(angle).toFloat() * inner)
+            val end = Offset(center.x + kotlin.math.cos(angle).toFloat() * outer, center.y + kotlin.math.sin(angle).toFloat() * outer)
+            drawLine(Color(0xFFFFE7A3).copy(alpha = 0.8f), start, end, strokeWidth = 3f)
+        }
+    }
+}
+
 private fun weatherIcon(code: Int?): String = when (code) {
     0 -> "☀️"; 1 -> "🌤️"; 2 -> "⛅"; 3 -> "☁️"; 45,48 -> "🌫️"
     51,53,55,56,57,61,63,65,66,67,80,81,82 -> "🌧️"
