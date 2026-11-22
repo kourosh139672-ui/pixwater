@@ -138,8 +138,8 @@ fun WeatherXApp() {
     }
 
     val w = weather
-    val isRain = w?.code in listOf(51,53,55,56,57,61,63,65,66,67,80,81,82,95,96,99)
-    val isCloud = w?.code in listOf(2,3,45,48)
+    val isRain = w?.code?.let { it in listOf(51,53,55,56,57,61,63,65,66,67,80,81,82,95,96,99) } == true
+    val isCloud = w?.code?.let { it in listOf(2,3,45,48) } == true
     val gradient = when {
         isRain == true -> listOf(Color(0xFF174D75), Color(0xFF6599BA))
         isCloud == true -> listOf(Color(0xFF536E86), Color(0xFFA8BAC8))
@@ -438,7 +438,7 @@ private suspend fun fetchWeather(place: Place): Weather = withContext(Dispatcher
     }
     val uv = daily.getJSONArray("uv_index_max").optDouble(0)
     val alerts = mutableListOf<String>()
-    if (days.firstOrNull()?.rain ?: 0 >= 60) alerts.add("احتمال بارش زیاد است؛ برای برنامه بیرونی آماده باش.")
+    if ((days.firstOrNull()?.rain ?: 0) >= 60) alerts.add("احتمال بارش زیاد است؛ برای برنامه بیرونی آماده باش.")
     if (current.optDouble("wind_speed_10m") >= 35) alerts.add("باد شدید گزارش شده است؛ مراقب اشیای سبک و فعالیت بیرونی باش.")
     if (uv >= 8) alerts.add("شاخص UV بالاست؛ در ساعات اوج تابش احتیاط کن.")
     if (current.optInt("weather_code") in listOf(95,96,99)) alerts.add("شرایط رعدوبرقی گزارش شده؛ به فضای سرپوشیده امن برو و هشدارهای رسمی را دنبال کن.")
